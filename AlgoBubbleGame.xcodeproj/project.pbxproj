@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,9 @@
 		F3088955262B7C29005CAD9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3088954262B7C29005CAD9D /* ContentView.swift */; };
 		F3088957262B7C2C005CAD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3088956262B7C2C005CAD9D /* Assets.xcassets */; };
 		F308895A262B7C2C005CAD9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3088959262B7C2C005CAD9D /* Preview Assets.xcassets */; };
+		F3088964262B7C83005CAD9D /* swift-algorand-sdk in Frameworks */ = {isa = PBXBuildFile; productRef = F3088963262B7C83005CAD9D /* swift-algorand-sdk */; };
+		F308896A262B7CD4005CAD9D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3088969262B7CD4005CAD9D /* GameScene.swift */; };
+		F33ACAC2262D9DE7001190CC /* bubbleGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33ACAC1262D9DE7001190CC /* bubbleGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,8 @@
 		F3088956262B7C2C005CAD9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3088959262B7C2C005CAD9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F308895B262B7C2C005CAD9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3088969262B7CD4005CAD9D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		F33ACAC1262D9DE7001190CC /* bubbleGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bubbleGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3088964262B7C83005CAD9D /* swift-algorand-sdk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +60,8 @@
 			children = (
 				F3088952262B7C29005CAD9D /* AlgoBubbleGameApp.swift */,
 				F3088954262B7C29005CAD9D /* ContentView.swift */,
+				F33ACAC1262D9DE7001190CC /* bubbleGame.swift */,
+				F3088969262B7CD4005CAD9D /* GameScene.swift */,
 				F3088956262B7C2C005CAD9D /* Assets.xcassets */,
 				F308895B262B7C2C005CAD9D /* Info.plist */,
 				F3088958262B7C2C005CAD9D /* Preview Content */,
@@ -85,6 +93,9 @@
 			dependencies = (
 			);
 			name = AlgoBubbleGame;
+			packageProductDependencies = (
+				F3088963262B7C83005CAD9D /* swift-algorand-sdk */,
+			);
 			productName = AlgoBubbleGame;
 			productReference = F308894F262B7C29005CAD9D /* AlgoBubbleGame.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +123,9 @@
 				Base,
 			);
 			mainGroup = F3088946262B7C29005CAD9D;
+			packageReferences = (
+				F3088962262B7C83005CAD9D /* XCRemoteSwiftPackageReference "Swift-Algorand-Sdk" */,
+			);
 			productRefGroup = F3088950262B7C29005CAD9D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,7 +152,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F33ACAC2262D9DE7001190CC /* bubbleGame.swift in Sources */,
 				F3088955262B7C29005CAD9D /* ContentView.swift in Sources */,
+				F308896A262B7CD4005CAD9D /* GameScene.swift in Sources */,
 				F3088953262B7C29005CAD9D /* AlgoBubbleGameApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +344,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3088962262B7C83005CAD9D /* XCRemoteSwiftPackageReference "Swift-Algorand-Sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Jesulonimi21/Swift-Algorand-Sdk.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F3088963262B7C83005CAD9D /* swift-algorand-sdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3088962262B7C83005CAD9D /* XCRemoteSwiftPackageReference "Swift-Algorand-Sdk" */;
+			productName = "swift-algorand-sdk";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F3088947262B7C29005CAD9D /* Project object */;
 }

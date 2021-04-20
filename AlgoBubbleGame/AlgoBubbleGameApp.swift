@@ -11,7 +11,7 @@ import SwiftUI
 struct AlgoBubbleGameApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(AssetModel: bubbleGame(), gameScene: GameScene(horseAsset: .constant(true)))
         }
     }
 }
