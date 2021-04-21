@@ -51,7 +51,7 @@ struct ContentView: View {
 //    purestake
     
     var ALGOD_API_ADDR="https://testnet-algorand.api.purestake.io/ps2"
-    var ALGOD_API_TOKEN="Gs7Ev71MhdC0jDFmytz98ZLbW9mlDwN95iTJ2ol5"
+    var ALGOD_API_TOKEN="Gs---------------------------5"
     var ALGOD_API_PORT=""
 
     @State var assetIndex1:Int64?=nil
