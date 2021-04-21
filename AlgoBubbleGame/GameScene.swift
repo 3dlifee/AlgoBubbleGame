@@ -42,7 +42,6 @@ class GameScene: SKScene, ObservableObject {
     var totalBubbleLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
     
     var ruleLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
-
     
     
     var int = 0

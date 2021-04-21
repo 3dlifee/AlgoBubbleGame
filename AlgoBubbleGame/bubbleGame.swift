@@ -62,7 +62,7 @@ class bubbleGame: ObservableObject {
     
     @Published var assetIndexName:Int64?=0
     
-    
+
     
     var assetIDValue:String{
         String(assetIndexName ?? 0)
