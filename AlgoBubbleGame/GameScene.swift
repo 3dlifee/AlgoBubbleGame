@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-
 import SwiftUI
 import SpriteKit
 
@@ -40,7 +39,6 @@ class GameScene: SKScene, ObservableObject {
     var timerLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
     var bubbleLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
     var totalBubbleLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
-    
     var ruleLabel:SKLabelNode = SKLabelNode(fontNamed: "Arial")
     
     
@@ -49,33 +47,31 @@ class GameScene: SKScene, ObservableObject {
     var number = 0
     var randomCount = Int.random(in: 1...3) + 1
     private var lastUpdateTime : TimeInterval = 0
-  
-    
-    
-    let backgroundNode = SKSpriteNode()
     
     let background = SKSpriteNode(imageNamed: "bubbleBack")
     let timerCount = SKSpriteNode(imageNamed: "timerCount")
     let bubbleCount = SKSpriteNode(imageNamed: "bubbles")
     let totalBubbleCount = SKSpriteNode(imageNamed: "totalbubbles")
     let play: SKSpriteNode = SKSpriteNode(imageNamed: "play")
-    
-    
-    
+
     var arrplayer :[SKSpriteNode] = [SKSpriteNode]()
-    
-    var groups = [String]()
-    
+    var playerNameArr = [String]()
     var theTimer = Timer()
     var secondsLeft = 15
     var startTime = 0
     var bubblesCatch = 0
     var totalBubblesCatch = 0
     
-
-    
+    // -------music//
+    let musicNode = SKAudioNode(fileNamed: "PoolParty.wav")
 
     override func didMove(to view: SKView) {
+        
+        
+        musicNode.autoplayLooped = true
+        musicNode.isPositional = false
+        // Add the audio the scene
+        addChild(musicNode)
 
         self.lastUpdateTime = 0
         
@@ -149,73 +145,47 @@ class GameScene: SKScene, ObservableObject {
         totalBubbleLabel.position = CGPoint(x: 140, y: 80)
         totalBubbleLabel.zPosition = 100
         addChild(totalBubbleLabel)
-        
-       
-       
-        
-        
-      
     }
+    
     func addTimeBonus() {
-        
         
         secondsLeft = secondsLeft + 5
         defaults.set( secondsLeft, forKey: "increaseTime")
-        
-        
         self.startTime = self.defaults.integer(forKey: "increaseTime")
-        
         self.timerLabel.text = "\(self.startTime)"
-        
-        
         
     }
     
     func unlockAsset() {
         
-        
-        
         theAssetState.add(assetStateChange: false)
-        
         self.horseAsset = false
     }
-    
-    
     
     func setupStartButton() {
         
         ruleLabel.text = "Touch the Seahorse balls in descending order."
         ruleLabel.fontSize = 18
-        
         ruleLabel.fontColor = SKColor.white
         ruleLabel.horizontalAlignmentMode = .left
         ruleLabel.position = CGPoint(x: -180 , y: frame.midY - 200)
         ruleLabel.zPosition = 100
-        
         addChild(ruleLabel)
-        
-        
-        
+ 
         play.position = CGPoint(x: frame.midX, y: frame.midY - 100)
-        
         play.zPosition = 2
         
         self.addChild(play)
         play.name = "playBtn"
-        
-      
+
     // Add animation
     let scaleUp = SKAction.scale(to: 0.55, duration: 0.65)
     let scaleDown = SKAction.scale(to: 0.50, duration: 0.65)
     let playBounce = SKAction.sequence([scaleDown, scaleUp])
     let bounceRepeat = SKAction.repeatForever(playBounce)
         play.run(bounceRepeat)
-        
 
     }
-    
-    
-    
     
     func showStartButton() {
         play.run(SKAction.fadeIn(withDuration: 0.25))
@@ -226,10 +196,7 @@ class GameScene: SKScene, ObservableObject {
         ruleLabel.run(SKAction.fadeOut(withDuration: 0.25))
     }
     
-    
     func gameOver(){
-        
-        
         
         if defaults.object(forKey: "increaseTime") != nil {
             
@@ -249,13 +216,11 @@ class GameScene: SKScene, ObservableObject {
         bubblesCatch = 0
         bubbleLabel.text = "\(bubblesCatch)"
         timerLabel.text =  "\(startTime)"
-        groups.removeAll()
+        playerNameArr.removeAll()
         for enemy in arrplayer {
             enemy.removeFromParent()
-           
+            
         }
-        
-        
         
     }
     
@@ -266,12 +231,9 @@ class GameScene: SKScene, ObservableObject {
     }
     
     @objc func countdownTimer(){
-        
-        
+
         startTime -= 1
-        
         timerLabel.text =  "\(startTime)"
-        
         
         if startTime == 0 {
             theTimer.invalidate()
@@ -281,51 +243,36 @@ class GameScene: SKScene, ObservableObject {
     }
     
     func createPlayer(){
-        
-        
+  
         for int in 1...nrOfBubbles where int < nrOfBubbles {
-            
-            
-            moveBackground()
+   
+            populateStage()
             number += randomCount
-            
-            
+             
         }
-        
         
     }
     
-    
-    func moveBackground() {
-        
-
+    func populateStage() {
 
         let randomX = CGFloat.random(in: -160...160)
         let randomY = CGFloat.random(in: -370...5)
-        
-        let mainShip:SKLabelNode = SKLabelNode(fontNamed: "Arial")
-        
+        let bubbleNumberText:SKLabelNode = SKLabelNode(fontNamed: "Arial")
 
-        mainShip.fontSize = 40
-        mainShip.verticalAlignmentMode = .center
-        mainShip.fontColor = SKColor.black
-        mainShip.text = String(number)
-        mainShip.zPosition = 3
-        
-        
+        bubbleNumberText.fontSize = 40
+        bubbleNumberText.verticalAlignmentMode = .center
+        bubbleNumberText.fontColor = SKColor.black
+        bubbleNumberText.text = String(number)
+        bubbleNumberText.zPosition = 3
+
        let player: SKSpriteNode = SKSpriteNode(imageNamed: "horse")
         player.position = CGPoint(x: randomX, y: randomY)
         player.zPosition = 4
         player.name = String(number)
-
-        player.addChild(mainShip)
-        
+        player.addChild(bubbleNumberText)
         self.addChild(player)
-       
-   
-//        print(number)
-        
-        groups.append(player.name!)
+
+        playerNameArr.append(player.name!)
         arrplayer.append(player)
 //
     }
@@ -341,13 +288,6 @@ class GameScene: SKScene, ObservableObject {
     func touchDown(atPoint pos : CGPoint) {
         
         
-        let touchNBonus = atPoint (pos)
-        
-        if touchNBonus.name == "bonusTime"{
-            
-            
-        }
-        
         let touchN = atPoint (pos)
         
         if touchN.name == "playBtn"{
@@ -356,24 +296,19 @@ class GameScene: SKScene, ObservableObject {
             
             startTheTimer()
             hideStartButton()
-            
-           
-
-//
+            //
         }
         
         let touchedN = nodes(at: pos)
         for touchedNode in touchedN {
             
-//
-          
-            if touchedNode.name == groups.last {
-//                print("test")
+            //
+            
+            if touchedNode.name == playerNameArr.last {
+                //
                 touchedNode.removeFromParent()
                 
-                
-                groups.removeLast()
-                
+                playerNameArr.removeLast()
                 
                 bubblesCatch = bubblesCatch + 1
                 
@@ -386,42 +321,31 @@ class GameScene: SKScene, ObservableObject {
                 if totalBubblesCatch >= 15 {
                     
                     unlockAsset()
-                    
-                    //                    print("unlockAsset")
+  
                 }
-                
-                //
-                
-                if groups.isEmpty {
+
+                if playerNameArr.isEmpty {
 //                    print("is empty.")
                     createPlayer()
                     nrOfBubbles = nrOfBubbles+1
                     number = 0
-                    
-                    
+
                 }
                 
                 return
 
                 
-            }else if touchedNode.name != groups.last && touchedNode.name != "background" && touchedNode.name != "playBtn" && touchedNode.name != nil{
+            }else if touchedNode.name != playerNameArr.last && touchedNode.name != "background" && touchedNode.name != "playBtn" && touchedNode.name != nil{
                 print("erro")
                 print(touchedNode.name as Any)
-                
-                
+      
                 theTimer.invalidate()
-                
-                
+  
                 gameOver()
                 //
-                
-                
-                
             }
             
         }
-        
-        
         
     }
     
