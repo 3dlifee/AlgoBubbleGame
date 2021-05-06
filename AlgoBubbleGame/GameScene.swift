@@ -64,6 +64,8 @@ class GameScene: SKScene, ObservableObject {
     
     // -------music//
     let musicNode = SKAudioNode(fileNamed: "PoolParty.wav")
+    private let playPopSound = SKAction.playSoundFileNamed("pop.mp3",
+    waitForCompletion: false)
 
     override func didMove(to view: SKView) {
         
@@ -277,7 +279,11 @@ class GameScene: SKScene, ObservableObject {
 //
     }
         
- 
+    func playPop() {
+    let removeFromParent = SKAction.removeFromParent()
+    let actionPopGroup = SKAction.group([playPopSound, removeFromParent])
+    self.run(actionPopGroup)
+    }
     
     override func update(_ currentTime: TimeInterval) {
 
@@ -317,6 +323,7 @@ class GameScene: SKScene, ObservableObject {
                 totalBubblesCatch = bubblesCatch
                 
                 totalBubbleLabel.text = "\(totalBubblesCatch)"
+                self.playPop()
                 
                 if totalBubblesCatch >= 15 {
                     
