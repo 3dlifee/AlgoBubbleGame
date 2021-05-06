@@ -148,6 +148,7 @@ class GameScene: SKScene, ObservableObject {
         totalBubbleLabel.zPosition = 100
         addChild(totalBubbleLabel)
     }
+    // MARK: - addTimeBonus
     
     func addTimeBonus() {
         
@@ -157,12 +158,15 @@ class GameScene: SKScene, ObservableObject {
         self.timerLabel.text = "\(self.startTime)"
         
     }
+    // MARK: - UnlockAsset
     
     func unlockAsset() {
         
         theAssetState.add(assetStateChange: false)
         self.horseAsset = false
     }
+    
+    // MARK: - Animations
     
     func setupStartButton() {
         
@@ -198,6 +202,8 @@ class GameScene: SKScene, ObservableObject {
         ruleLabel.run(SKAction.fadeOut(withDuration: 0.25))
     }
     
+    // MARK: - Game Over
+    
     func gameOver(){
         
         if defaults.object(forKey: "increaseTime") != nil {
@@ -226,6 +232,7 @@ class GameScene: SKScene, ObservableObject {
         
     }
     
+    // MARK: - Timer
     
     func startTheTimer() {
         
@@ -243,6 +250,8 @@ class GameScene: SKScene, ObservableObject {
         }
         //
     }
+    
+    // MARK: - Create Game Characters
     
     func createPlayer(){
   
@@ -278,7 +287,8 @@ class GameScene: SKScene, ObservableObject {
         arrplayer.append(player)
 //
     }
-        
+    // MARK: - Play Sounds
+    
     func playPop() {
     let removeFromParent = SKAction.removeFromParent()
     let actionPopGroup = SKAction.group([playPopSound, removeFromParent])
@@ -290,6 +300,7 @@ class GameScene: SKScene, ObservableObject {
         
     }
     
+    // MARK: - Touch Functions
     
     func touchDown(atPoint pos : CGPoint) {
         
