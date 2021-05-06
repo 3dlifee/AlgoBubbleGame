@@ -169,8 +169,8 @@ class GameScene: SKScene, ObservableObject {
         ruleLabel.text = "Touch the Seahorse balls in descending order."
         ruleLabel.fontSize = 18
         ruleLabel.fontColor = SKColor.white
-        ruleLabel.horizontalAlignmentMode = .left
-        ruleLabel.position = CGPoint(x: -180 , y: frame.midY - 200)
+        ruleLabel.horizontalAlignmentMode = .center
+        ruleLabel.position = CGPoint(x: 0 , y: frame.midY - 200)
         ruleLabel.zPosition = 100
         addChild(ruleLabel)
  
