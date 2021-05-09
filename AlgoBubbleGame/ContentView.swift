@@ -21,11 +21,6 @@ enum goSheet: Identifiable {
 
 
 struct ContentView: View {
-    
-    @State var addMnemonic1:String = ""
-   
-    @State var addMnemonic3:String = ""
-    @State var addReceiverAddress:String = ""
    
     @State var activeGoSheet: goSheet?
 //
@@ -231,7 +226,6 @@ struct ContentView: View {
             
             
             Text("Try to catch 15 Bubbles and win the Asset.")
-                
                 .fontWeight(.bold)
                 .font(.custom("AvenirNext-Medium", size: 18))
                 .foregroundColor(Color.black)
@@ -257,8 +251,6 @@ struct ContentView: View {
             
             let senderAddress1 = account1.getAddress()
             
-            
-            
             algodClient.transactionParams().execute(){ paramResponse in
                 if(!(paramResponse.isSuccessful)){
                     print(paramResponse.errorDescription!);
@@ -269,22 +261,21 @@ struct ContentView: View {
                 
           
            
-           let tx = Transaction.assetCreateTransactionBuilder()
-               .setSender(senderAddress1)
-               
-            .setAssetTotal(assetTotal: assetTotal)
-            .setAssetDecimals(assetDecimals: assetDecimals)
-            .assetUnitName(assetUnitName: assetUnitName)
-            .assetName(assetName: assetName)
-            .url(url: url)
-            .manager(manager: defaults.string(forKey: "receiveAddress") ?? "")
-            .reserve(reserve: defaults.string(forKey: "receiveAddress") ?? "")
-            .freeze(freeze:  defaults.string(forKey: "receiveAddress") ?? "")
-            .defaultFrozen(defaultFrozen:defaultFrozen)
-            .clawback(clawback:  defaults.string(forKey: "receiveAddress") ?? "")
-            .suggestedParams(params: paramResponse.data!).build()
-               
-         
+                let tx = Transaction.assetCreateTransactionBuilder()
+                    .setSender(senderAddress1)
+                    .setAssetTotal(assetTotal: assetTotal)
+                    .setAssetDecimals(assetDecimals: assetDecimals)
+                    .assetUnitName(assetUnitName: assetUnitName)
+                    .assetName(assetName: assetName)
+                    .url(url: url)
+                    .manager(manager: defaults.string(forKey: "receiveAddress") ?? "")
+                    .reserve(reserve: defaults.string(forKey: "receiveAddress") ?? "")
+                    .freeze(freeze:  defaults.string(forKey: "receiveAddress") ?? "")
+                    .defaultFrozen(defaultFrozen:defaultFrozen)
+                    .clawback(clawback:  defaults.string(forKey: "receiveAddress") ?? "")
+                    .suggestedParams(params: paramResponse.data!).build()
+                
+                
         let signedTransaction=account1.signTransaction(tx: tx)
         let encodedTrans:[Int8]=CustomEncoder.encodeToMsgPack(signedTransaction)
         _=Data(CustomEncoder.convertToUInt8Array(input: encodedTrans))
@@ -622,7 +613,7 @@ struct ContentView: View {
                     response in
                     if(response.isSuccessful){
                         print(response.data!.txId)
-                        print("Sucesso")
+                        print("OK!")
                         
                         
                         
