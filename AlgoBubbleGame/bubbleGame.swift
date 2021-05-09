@@ -17,25 +17,18 @@ class bubbleGame: ObservableObject {
     
     @Published var assetState:Bool = true
     
-    
     var assetBubbleState:Bool{
-        
-        
+
         Bool(self.assetState)
         
     }
     
     
     func add(assetStateChange:Bool){
-        
-        
+
         self.assetState = assetStateChange
-        
-        
+
         print("BubbleClass \( assetState)")
-        
-        
-        
         
         return
     }
@@ -61,9 +54,7 @@ class bubbleGame: ObservableObject {
     //    -----------Asset ID -------------//
     
     @Published var assetIndexName:Int64?=0
-    
 
-    
     var assetIDValue:String{
         String(assetIndexName ?? 0)
         

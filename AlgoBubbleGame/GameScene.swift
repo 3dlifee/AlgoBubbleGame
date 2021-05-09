@@ -10,9 +10,6 @@ import Combine
 import SwiftUI
 import SpriteKit
 
-
-
-
 class GameScene: SKScene, ObservableObject {
     
     @Binding var horseAsset: Bool

@@ -13,7 +13,11 @@
 		F308895A262B7C2C005CAD9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3088959262B7C2C005CAD9D /* Preview Assets.xcassets */; };
 		F3088964262B7C83005CAD9D /* swift-algorand-sdk in Frameworks */ = {isa = PBXBuildFile; productRef = F3088963262B7C83005CAD9D /* swift-algorand-sdk */; };
 		F308896A262B7CD4005CAD9D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3088969262B7CD4005CAD9D /* GameScene.swift */; };
+		F30DBF3D264748430075683F /* accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30DBF3C264748430075683F /* accounts.swift */; };
+		F30DBF3F2647485B0075683F /* defaultsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30DBF3E2647485B0075683F /* defaultsModel.swift */; };
 		F33ACAC2262D9DE7001190CC /* bubbleGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33ACAC1262D9DE7001190CC /* bubbleGame.swift */; };
+		F347822C2643F56500E97D46 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F347822B2643F56500E97D46 /* pop.mp3 */; };
+		F39210852642A0E6001D2EBD /* PoolParty.wav in Resources */ = {isa = PBXBuildFile; fileRef = F39210842642A0E6001D2EBD /* PoolParty.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +28,11 @@
 		F3088959262B7C2C005CAD9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F308895B262B7C2C005CAD9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3088969262B7CD4005CAD9D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		F30DBF3C264748430075683F /* accounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accounts.swift; sourceTree = "<group>"; };
+		F30DBF3E2647485B0075683F /* defaultsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = defaultsModel.swift; sourceTree = "<group>"; };
 		F33ACAC1262D9DE7001190CC /* bubbleGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bubbleGame.swift; sourceTree = "<group>"; };
+		F347822B2643F56500E97D46 /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
+		F39210842642A0E6001D2EBD /* PoolParty.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PoolParty.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +70,9 @@
 				F3088954262B7C29005CAD9D /* ContentView.swift */,
 				F33ACAC1262D9DE7001190CC /* bubbleGame.swift */,
 				F3088969262B7CD4005CAD9D /* GameScene.swift */,
+				F30DBF3C264748430075683F /* accounts.swift */,
+				F30DBF3E2647485B0075683F /* defaultsModel.swift */,
+				F39210832642A0D3001D2EBD /* Gamemusic */,
 				F3088956262B7C2C005CAD9D /* Assets.xcassets */,
 				F308895B262B7C2C005CAD9D /* Info.plist */,
 				F3088958262B7C2C005CAD9D /* Preview Content */,
@@ -75,6 +86,15 @@
 				F3088959262B7C2C005CAD9D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F39210832642A0D3001D2EBD /* Gamemusic */ = {
+			isa = PBXGroup;
+			children = (
+				F39210842642A0E6001D2EBD /* PoolParty.wav */,
+				F347822B2643F56500E97D46 /* pop.mp3 */,
+			);
+			path = Gamemusic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,8 +160,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F347822C2643F56500E97D46 /* pop.mp3 in Resources */,
 				F308895A262B7C2C005CAD9D /* Preview Assets.xcassets in Resources */,
 				F3088957262B7C2C005CAD9D /* Assets.xcassets in Resources */,
+				F39210852642A0E6001D2EBD /* PoolParty.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +176,8 @@
 			files = (
 				F33ACAC2262D9DE7001190CC /* bubbleGame.swift in Sources */,
 				F3088955262B7C29005CAD9D /* ContentView.swift in Sources */,
+				F30DBF3D264748430075683F /* accounts.swift in Sources */,
+				F30DBF3F2647485B0075683F /* defaultsModel.swift in Sources */,
 				F308896A262B7CD4005CAD9D /* GameScene.swift in Sources */,
 				F3088953262B7C29005CAD9D /* AlgoBubbleGameApp.swift in Sources */,
 			);

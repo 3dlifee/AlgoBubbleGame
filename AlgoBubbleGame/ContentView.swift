@@ -21,44 +21,39 @@ enum goSheet: Identifiable {
 
 
 struct ContentView: View {
+    
+    @State var addMnemonic1:String = ""
+   
+    @State var addMnemonic3:String = ""
+    @State var addReceiverAddress:String = ""
+   
     @State var activeGoSheet: goSheet?
 //
     @ObservedObject var AssetModel:bubbleGame
     @ObservedObject var gameScene: GameScene
-
     @ObservedObject var assetSate = bubbleGame()
     
-
     @State var defaults:UserDefaults = UserDefaults.standard
-    
-
     @State var transactionIsShowing = false
+    @State private var accountIsShowing = false
+    
     let bonusSuccedImage = "timerBuyConfirm"
     let bonusFailImage = "timerBuyFail"
     
     @State private var assetRewardState = false
-    
-    
     let transactionSuccedImage = "seahorseTransfer"
     let transactionFailImage = "seahorseTransferFail"
     @State var istransaction = false
     
-    
-    
-    
-    
-    
-//    purestake
+//   -------PureStake API Token--------------//
     
     var ALGOD_API_ADDR="https://testnet-algorand.api.purestake.io/ps2"
     var ALGOD_API_TOKEN="Gs---------------------------5"
     var ALGOD_API_PORT=""
 
+    //   ------- Asset Values--------------//
+    
     @State var assetIndex1:Int64?=nil
-    
-    @State var teste:String = "Hello"
-    @State var resultadoLda:Float = 0
-    
     @State var assetTotal:Int64 = 10000
     @State var assetDecimals:Int64 = 0
     @State var  assetUnitName = "HR"
@@ -66,12 +61,7 @@ struct ContentView: View {
     @State var  url = "https://www.3dlifestudio.com"
     @State var defaultFrozen = false
    
-
-    
-   
-    
-    
-    
+    //   ------- SKScene --------------//
     
     var scene: SKScene {
         let scene = GameScene(horseAsset: $assetSate.assetState)
@@ -93,6 +83,24 @@ struct ContentView: View {
             VStack(alignment: .leading){
                 
                 HStack(){
+                    
+                    Button(action: {
+     
+                        accountIsShowing = true
+    
+                    }) {
+                        Image(systemName:"plus.circle.fill")
+                            .font(.system(size: 50.0))
+                            .foregroundColor((Color("seta")))
+                       
+                    }
+                    .padding(.trailing)
+ 
+                    .sheet(isPresented: $accountIsShowing, onDismiss: {}, content: {
+                        AlgoBubbleGame.accounts(accountIsShowing: $accountIsShowing)
+
+                      })
+                    
                     Button(action: {
                         
                         self.createAssetClicked()
@@ -101,6 +109,7 @@ struct ContentView: View {
                         Image("create")
                         
                     }
+                    .padding(.trailing)
                     
                     Button(action: {
                         
@@ -110,24 +119,23 @@ struct ContentView: View {
                         Image("manager")
                         
                     }
+                    .padding(.trailing)
                     
                     Button(action: {
-                        //
+                      
                         self.optInToAsa()
                         
                     }) {
                         Image("optin")
                         
                     }
-                    
-                    
+                    .padding(.trailing)
                     
                 }
                 //
                 .padding(.top, 30.0)
                 HStack(){
                     Button(action: {
-                        
                         
                         activeGoSheet = .bonus
                         //
@@ -147,7 +155,7 @@ struct ContentView: View {
                     
                     
                 }
-                .padding(.leading)
+
                 
                 Button(action: {
                     
@@ -223,9 +231,11 @@ struct ContentView: View {
             
             
             Text("Try to catch 15 Bubbles and win the Asset.")
+                
+                .fontWeight(.bold)
+                .font(.custom("AvenirNext-Medium", size: 18))
+                .foregroundColor(Color.black)
                 .offset(y:-150)
-           
-            
         }
 
        
@@ -234,79 +244,76 @@ struct ContentView: View {
     
   
     
-//    algorand sdk
+    //    algorand sdk
     func createAssetClicked() {
-       
-       
-       let algodClient=AlgodClient(host: ALGOD_API_ADDR, port: ALGOD_API_PORT, token: ALGOD_API_TOKEN)
-           algodClient.set(key: "X-API-KeY")
-       
-      
-       do {
-       let mnemonic1 = "digital special special special special special special special special special special special special special special special special special special special special special special special special"
-       
-       let account1 = try Account(mnemonic1)
-       //all fine with jsonData here
-       
-       let senderAddress1 = account1.getAddress()
-           
-
-    
-       algodClient.transactionParams().execute(){ paramResponse in
-           if(!(paramResponse.isSuccessful)){
-               print(paramResponse.errorDescription!);
-               print("passou")
-               return;
-       
-           }
-           
+        
+        let algodClient=AlgodClient(host: ALGOD_API_ADDR, port: ALGOD_API_PORT, token: ALGOD_API_TOKEN)
+        algodClient.set(key: "X-API-KeY")
+        
+        
+        do {
+          
+            let account1 = try Account(defaults.string(forKey: "mnemonic1") ?? "")
+            
+            let senderAddress1 = account1.getAddress()
+            
+            
+            
+            algodClient.transactionParams().execute(){ paramResponse in
+                if(!(paramResponse.isSuccessful)){
+                    print(paramResponse.errorDescription!);
+                    print("OK")
+                    return;
+                    
+                }
+                
           
            
            let tx = Transaction.assetCreateTransactionBuilder()
                .setSender(senderAddress1)
                
-               .setAssetTotal(assetTotal: assetTotal)
-               .setAssetDecimals(assetDecimals: assetDecimals)
-               .assetUnitName(assetUnitName: assetUnitName)
-               .assetName(assetName: assetName)
-               .url(url: url)
-               .manager(manager: "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .reserve(reserve: "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .freeze(freeze:  "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .defaultFrozen(defaultFrozen:defaultFrozen)
-               .clawback(clawback:  "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .suggestedParams(params: paramResponse.data!).build()
+            .setAssetTotal(assetTotal: assetTotal)
+            .setAssetDecimals(assetDecimals: assetDecimals)
+            .assetUnitName(assetUnitName: assetUnitName)
+            .assetName(assetName: assetName)
+            .url(url: url)
+            .manager(manager: defaults.string(forKey: "receiveAddress") ?? "")
+            .reserve(reserve: defaults.string(forKey: "receiveAddress") ?? "")
+            .freeze(freeze:  defaults.string(forKey: "receiveAddress") ?? "")
+            .defaultFrozen(defaultFrozen:defaultFrozen)
+            .clawback(clawback:  defaults.string(forKey: "receiveAddress") ?? "")
+            .suggestedParams(params: paramResponse.data!).build()
                
          
-           let signedTransaction=account1.signTransaction(tx: tx)
-           let encodedTrans:[Int8]=CustomEncoder.encodeToMsgPack(signedTransaction)
-           _=Data(CustomEncoder.convertToUInt8Array(input: encodedTrans))
-           
-           algodClient.rawTransaction().rawtxn(rawtaxn: encodedTrans).execute(){
-              response in
-               if(response.isSuccessful){
-                   
-                    print(signedTransaction)
-                    print(encodedTrans)
-//
-                  
-                   print(response.data!.txId)
-                   print("Pass")
-                   self.waitForTransaction(txId:response.data!.txId)
-
-               }else{
-                   print(response.errorDescription!)
-                   print("Failed")
-               }
-           }
-           
-
+        let signedTransaction=account1.signTransaction(tx: tx)
+        let encodedTrans:[Int8]=CustomEncoder.encodeToMsgPack(signedTransaction)
+        _=Data(CustomEncoder.convertToUInt8Array(input: encodedTrans))
+        
+        algodClient.rawTransaction().rawtxn(rawtaxn: encodedTrans).execute(){
+            response in
+            if(response.isSuccessful){
+                
+                print(signedTransaction)
+                print(encodedTrans)
+                //
+                
+                print(response.data!.txId)
+                print("Pass")
+                self.waitForTransaction(txId:response.data!.txId)
+                
+            }else{
+                print(response.errorDescription!)
+                print("Failed")
+            }
+        }
+        
+        
        }
        } catch {
-           //handle error
-           print(error)
+        //handle error
+        print(error)
        }
-       print("algo buy!")
+        print("algo buy!")
    }
     
 //-----
@@ -358,16 +365,11 @@ struct ContentView: View {
        
       
        do {
-       let mnemonic1 = "digital special special special special special special special special special special special special special special special special special special special special special special special special"
-       
-       let account1 = try Account(mnemonic1)
-       //all fine with jsonData here
+      
+       let account1 = try Account( defaults.string(forKey: "mnemonic1") ?? "")
        
        let senderAddress1 = account1.getAddress()
-           
-         
-
-    
+ 
        algodClient.transactionParams().execute(){ paramResponse in
            if(!(paramResponse.isSuccessful)){
                print(paramResponse.errorDescription!);
@@ -375,17 +377,14 @@ struct ContentView: View {
                return;
                
            }
-           
-           
-          
                
            let tx = Transaction.assetConfigureTransactionBuilder()
-               .reserve(reserve: "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .freeze(freeze:  "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-               .clawback(clawback:  "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+               .reserve(reserve: defaults.string(forKey: "receiveAddress") ?? "")
+               .freeze(freeze:  defaults.string(forKey: "receiveAddress") ?? "")
+               .clawback(clawback:  defaults.string(forKey: "receiveAddress") ?? "")
                .assetIndex(assetIndex: Int64(AssetModel.assetIDValue)!)
                .setSender(senderAddress1)
-               .manager(manager: "KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+               .manager(manager: defaults.string(forKey: "receiveAddress") ?? "")
                .suggestedParams(params: paramResponse.data!)
                      .build();
       
@@ -426,17 +425,15 @@ struct ContentView: View {
         
         do {
             
-            let mnemonic3 = "diet special special special special special special special special special special special special special special special special special special special special special special special special"
             
-            let account3 = try Account(mnemonic3)
-            //all fine with jsonData here
-            
+            let account3 = try Account( defaults.string(forKey: "mnemonic3") ?? "")
+      
             let senderAddress3 = account3.getAddress()
             
             algodClient.transactionParams().execute(){paramResponse in
                 if(!(paramResponse.isSuccessful)){
                     print(paramResponse.errorDescription!);
-                    print("passou")
+                    print("Success")
                     return;
                 }
                 
@@ -496,18 +493,12 @@ struct ContentView: View {
         
         do {
             
-            let mnemonic1 = "digital special special special special special special special special special special special special special special special special special special special special special special special special"
-            
-            let account1 = try Account(mnemonic1)
-            //all fine with jsonData here
+            let account1 = try Account( defaults.string(forKey: "mnemonic1") ?? "")
             
             let senderAddress1 = account1.getAddress()
-            
-            let mnemonic3 = "diet special special special special special special special special special special special special special special special special special special special special special special special special"
-            
-            let account3 = try Account(mnemonic3)
-            //all fine with jsonData here
-            
+          
+            let account3 = try Account( defaults.string(forKey: "mnemonic3") ?? "")
+           
             let senderAddress3 = account3.getAddress()
             
             
@@ -520,7 +511,7 @@ struct ContentView: View {
                     return;
                 }
                 
-                let tx = Transaction.assetTransferTransactionBuilder()
+                let tx =  Transaction.assetTransferTransactionBuilder()
                     
                     .setSender(senderAddress1)
                     .assetReceiver(assetReceiver:senderAddress3)
@@ -590,113 +581,98 @@ struct ContentView: View {
         
     }
     
+   
+   
+    //    ----transaction --------
     
-           
-       
-       
-       //    ----
-   
-   
-   
-   //    ----transaction --------
-    
-   func  requestBonus(){
-       
-       let algodClient=AlgodClient(host: ALGOD_API_ADDR, port: ALGOD_API_PORT, token: ALGOD_API_TOKEN)
-       algodClient.set(key: "X-API-KeY")
-       
-       do {
-           
-           let mnemonic = "digital special special special special special special special special special special special special special special special special special special special special special special special special"
-           
-           let account = try Account(mnemonic)
-           //all fine with jsonData here
-           
-           let senderAddress = account.getAddress()
-           let receiverAddress = try! Address("KRZ3ZZOGLKSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-           
-           
-           algodClient.transactionParams().execute(){ paramResponse in
-               if(!(paramResponse.isSuccessful)){
-                   print(paramResponse.errorDescription!);
-                   print("passou")
-                   return;
-               }
-               
-               
-               let tx = Transaction.paymentTransactionBuilder().setSender(senderAddress)
-                   .amount(10)
-                   .receiver(receiverAddress)
-                   .note("Swift Algo sdk is cool".bytes)
-                   .suggestedParams(params: paramResponse.data!)
-                   .build()
-               
-               
-               let signedTransaction=account.signTransaction(tx: tx)
-               
-               let encodedTrans:[Int8]=CustomEncoder.encodeToMsgPack(signedTransaction)
-               
-            algodClient.rawTransaction().rawtxn(rawtaxn: encodedTrans).execute(){
-                response in
-                if(response.isSuccessful){
-                    print(response.data!.txId)
-                    print("Sucesso")
-                    
-                    
-                    
-                    transactionIsShowing = true
-                    
-                    if transactionIsShowing == true {
-                        DispatchQueue.main.async {
-                            
-                            let result = "Transaction Ok!"
-                            assetSate.add(horseValue:String(result))
-                            
-                            gameScene.addTimeBonus()
-                            self.assetRewardState = true
-                            
+    func  requestBonus(){
+        
+        let algodClient=AlgodClient(host: ALGOD_API_ADDR, port: ALGOD_API_PORT, token: ALGOD_API_TOKEN)
+        algodClient.set(key: "X-API-KeY")
+        
+        do {
+        
+            let account = try Account( defaults.string(forKey: "mnemonic1") ?? "")
+            
+            let senderAddress = account.getAddress()
+            let receiverAddress = try! Address(defaults.string(forKey: "receiveAddress") ?? "")
+            
+            
+            algodClient.transactionParams().execute(){ paramResponse in
+                if(!(paramResponse.isSuccessful)){
+                    print(paramResponse.errorDescription!);
+                    print("passou")
+                    return;
+                }
+                
+                
+                let tx =  try? Transaction.paymentTransactionBuilder().setSender(senderAddress)
+                    .amount(1000000)
+                    .receiver(receiverAddress)
+                    .note("Swift Algo sdk is cool".bytes)
+                    .suggestedParams(params: paramResponse.data!)
+                    .build()
+                
+                
+                let signedTransaction=account.signTransaction(tx: tx!)
+                
+                let encodedTrans:[Int8]=CustomEncoder.encodeToMsgPack(signedTransaction)
+                
+                algodClient.rawTransaction().rawtxn(rawtaxn: encodedTrans).execute(){
+                    response in
+                    if(response.isSuccessful){
+                        print(response.data!.txId)
+                        print("Sucesso")
+                        
+                        
+                        
+                        transactionIsShowing = true
+                        
+                        if transactionIsShowing == true {
+                            DispatchQueue.main.async {
+                                
+                                let result = "Transaction Ok!"
+                                assetSate.add(horseValue:String(result))
+                                
+                                gameScene.addTimeBonus()
+                                self.assetRewardState = true
+                                
+                            }
                         }
-                    }
-                    
-                    
-                    
-//
-                     
-                    
-                   
-                    //
-                }else{
-                    print(response.errorDescription!)
-                    print("Failed")
-                    
-                    transactionIsShowing = false
-                    
-                    if transactionIsShowing == false {
-                        DispatchQueue.main.async {
-                            
-                            let result = "Transaction fail!"
-                            assetSate.add(horseValue:String(result))
-                            
-                            
-                            self.assetRewardState = true
-                            
+                        
+                        //
+                    }else{
+                        print(response.errorDescription!)
+                        print("Failed")
+                        
+                        transactionIsShowing = false
+                        
+                        if transactionIsShowing == false {
+                            DispatchQueue.main.async {
+                                
+                                let result = "Transaction fail!"
+                                assetSate.add(horseValue:String(result))
+                                
+                                
+                                self.assetRewardState = true
+                                
+                            }
                         }
+                        
+                        
+                        
+                        
                     }
-                    
-                    
-                    
                     
                 }
-                   
-               }
-           }
-           
-       } catch {
-           //handle error
-           print(error)
-       }
-       print("algo buy!")
-   }
+            }
+            
+        } catch {
+            //handle error
+            print(error)
+        }
+        print("algo buy!")
+    }
     
     
     
